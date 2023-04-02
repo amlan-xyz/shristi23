@@ -83,7 +83,7 @@ router.post(
 );
 
 router.get('/login',async(req,res)=>{
-  res.render("login");
+  res.render("test");
 })
 
 //ROUTE2: Authenticate a user using POST: api/auth/login . No login required

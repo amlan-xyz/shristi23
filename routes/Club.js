@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
   try {
     
     const clubs = await Club.find();
-    res.render('clubs',{clubs});
+    res.render('test',{clubs});
   } catch (error) {
     res.status(500).json({ error: error });
   }
