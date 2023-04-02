@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Global</title>
+    <title>Shristi23</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/navbar/navbar.css" />
     <link rel="stylesheet" href="/events/eventstyle.css" />
     <link rel="stylesheet" href="/login/css/style.css" />
+    <link rel="stylesheet" href="/popup.css" />
 
     <style>
       body {
@@ -19,6 +20,14 @@
       }
       .displayNone {
         display: none;
+      }
+
+      .checkDiv {
+        display: flex;
+      }
+      .checkDiv label {
+        font-size: 0.9rem;
+        width: 100%;
       }
     </style>
   </head>
@@ -59,20 +68,18 @@
 
     <section>
       <div class="container">
+        <div id="popup" class="popup">
+          <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p class="pop_text" style="color: black; font-weight: bold"></p>
+          </div>
+        </div>
+
         <div class="user signinBx">
           <div class="imgBx">
             <img src="/assets/img/shristi.png" alt="" />
           </div>
           <div class="formBx">
-            <!-- <form id="login-form">
-			<label for="username">Username:</label>
-			<input type="text" id="username" name="phoneNo" />
-			<br />
-			<label for="password">Password:</label>
-			<input type="password" id="password" name="password" />
-			<br />
-			<input type="submit" value="Login" />
-		  </form> -->
             <form id="login-form">
               <h2>Sign In</h2>
               <input
@@ -95,6 +102,7 @@
             </form>
 
             <script>
+              const pop_text = document.querySelector(".pop_text");
               const form = document.getElementById("login-form");
               form.addEventListener("submit", async (event) => {
                 event.preventDefault();
@@ -110,7 +118,8 @@
                   localStorage.setItem("user", JSON.stringify(data));
                   window.location.href = "/";
                 } else {
-                  alert("Login failed!");
+                  pop_text.textContent = "Incorrect Credentials";
+                  openPopup();
                 }
               });
             </script>
@@ -192,7 +201,7 @@
                     isNeristian: isNeristian,
                   };
                 }
-                console.log(obj);
+
                 const response = await fetch("/auth/createUser", {
                   method: "POST",
                   body: JSON.stringify(obj),
@@ -204,7 +213,8 @@
                   localStorage.setItem("user", JSON.stringify(data));
                   window.location.href = "/";
                 } else {
-                  alert("Signup failed!");
+                  pop_text.textContent = "Already Registered";
+                  openPopup();
                 }
               });
             </script>
@@ -221,17 +231,15 @@
     <script>
       const check_btn = document.querySelector(".check-btn");
       const registrationInput = document.querySelector("#regNo");
-      function toggleClass() {
+      function displayForm() {
         registrationInput.classList.toggle("displayNone");
       }
 
-      check_btn.addEventListener("click", toggleClass);
+      check_btn.addEventListener("click", displayForm);
     </script>
 
     <script>
-      const signed_user =
-        localStorage.getItem("user") &&
-        JSON.parse(localStorage.getItem("user"));
+      const signed_user = localStorage.getItem("user");
 
       const logout_btn = document.querySelector("#logout-btn");
       const login_btn = document.querySelector("#login-btn");
@@ -243,6 +251,20 @@
       function toggleClass() {
         login_btn.classList.toggle("displayNone");
         logout_btn.classList.toggle("displayNone");
+      }
+      logout_btn.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "/";
+      });
+
+      function openPopup() {
+        document.getElementById("popup").style.display = "block";
+      }
+
+      /* Close the popup */
+      function closePopup() {
+        pop_text.textContent = "";
+        document.getElementById("popup").style.display = "none";
       }
     </script>
   </body>

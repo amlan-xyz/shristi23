@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Global</title>
+    <title>Shristi23</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -9,7 +9,7 @@
     />
     <!-- <link rel="stylesheet" href="/navbar/navbar.css" /> -->
     <link rel="stylesheet" href="/details/detailstyle.css" />
-
+    <link rel="stylesheet" href="/popup.css" />
     <style>
       body {
         background-color: #02101c;
@@ -155,6 +155,12 @@
     </div>
 
     <div class="hero">
+      <div id="popup" class="popup">
+        <div class="popup-content">
+          <span class="close" onclick="closePopup()">&times;</span>
+          <p class="pop_text" style="color: black; font-weight: bold"></p>
+        </div>
+      </div>
       <div class="containerss row">
         <div class="hero__text">
           <div>
@@ -170,7 +176,17 @@
       <div class="containerss row">
         <div class="hero__text">
           <p class="ps">Description : <%=event.desc%></p>
+          <%if(event.youtubeLink){%>
+          <a
+            style="display: block; width: 50%; margin-bottom: 1rem"
+            href="<%=event.youtubeLink%>"
+            ><button class="btnss">View Demo</button></a
+          >
+          <%}%>
 
+          <p class="ps">
+            Venue : <%=event.venue%> at <%=event.date%> ,<%=event.time%>
+          </p>
           <h3 style="color: azure; margin-bottom: 1rem">Add team members</h3>
           <%if(event.isMainEvent){%>
           <form id="main-register-form">
@@ -195,7 +211,7 @@
               type="text"
               name="name"
               id="name"
-              style="display: block; margin-bottom: 1%"
+              style="display: block; margin-bottom: 1rem"
               placeholder="Team member name"
             />
             <%}%>
@@ -205,6 +221,8 @@
             <!-- <button type="submit" id="register">register</button> -->
 
             <script>
+              let pop_text = document.querySelector(".pop_text");
+              pop_text.textContent = "";
               //main event
               const formMain = document.getElementById(`main-register-form`);
               formMain.addEventListener("submit", async (event) => {
@@ -242,9 +260,11 @@
                 });
                 const data = await response.json();
                 if (data.success) {
-                  alert("Success");
+                  pop_text.textContent = "Registered";
+                  openPopup();
                 } else {
-                  alert("Already Registered");
+                  pop_text.textContent = "Already Registered";
+                  openPopup();
                 }
               });
             </script>
@@ -290,7 +310,8 @@
 
     <script>
       //pre event
-
+      let pop_text = document.querySelector(".pop_text");
+      pop_text.textContent = "";
       const formPre = document.getElementById(`register-form`);
       formPre.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -327,9 +348,11 @@
         });
         const data = await response.json();
         if (data.success) {
-          alert("Success");
+          pop_text.textContent = "Registered";
+          openPopup();
         } else {
-          alert("Already Registered");
+          pop_text.textContent = "Already Registered";
+          openPopup();
         }
       });
     </script>
@@ -354,6 +377,16 @@
         localStorage.clear();
         window.location.href = "/";
       });
+
+      function openPopup() {
+        document.getElementById("popup").style.display = "block";
+      }
+
+      /* Close the popup */
+      function closePopup() {
+        pop_text.textContent = "";
+        document.getElementById("popup").style.display = "none";
+      }
     </script>
   </body>
 </html>

@@ -66,6 +66,7 @@ router.post(
         },
       };
 
+      console.log(data);
       success = true;
       const authToken = jwt.sign(data, JWT_SECRET);
       const userData = await User.findById(user.id)
@@ -83,7 +84,7 @@ router.post(
 );
 
 router.get('/login',async(req,res)=>{
-  res.render("test");
+  res.render("login");
 })
 
 //ROUTE2: Authenticate a user using POST: api/auth/login . No login required
