@@ -50,9 +50,7 @@ const PORT = process.env.PORT || 5000;
 const Clubs=require('./models/Club');
 
 app.get("/", async(req, res) => {
-  // const clubs = await Clubs.find();
-  // console.log(clubs)
-  res.redirect('/test');
+  res.render('index')
 });
 
 
