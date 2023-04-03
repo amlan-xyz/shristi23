@@ -175,7 +175,7 @@
       </div>
       <div class="containerss row">
         <div class="hero__text">
-          <p class="ps">Description : <%=event.desc%></p>
+          <p class="ps">Description: <div id="quil_txt"></div></p>
           <%if(event.youtubeLink!='-'){%>
           <a
             style="display: block; width: 50%; margin-bottom: 1rem"
@@ -188,6 +188,7 @@
             Venue : <%=event.venue%> at <%=event.date%> ,<%=event.time%>
           </p>
           <h3 style="color: azure; margin-bottom: 1rem">Add team members</h3>
+
           <%if(event.isMainEvent){%>
           <form id="main-register-form">
             <input
@@ -215,14 +216,15 @@
               placeholder="Team member name"
             />
             <%}%>
-            <a href="" target="_blank" style="display: block; width: 25%"
+            <!-- <a href="" target="_blank" style="display: block; width: 25%"
               ><button id="register" class="btnss">Register</button></a
-            >
+            > -->
             <!-- <button type="submit" id="register">register</button> -->
 
             <script>
               let pop_text = document.querySelector(".pop_text");
               pop_text.textContent = "";
+
               //main event
               const formMain = document.getElementById(`main-register-form`);
               formMain.addEventListener("submit", async (event) => {
@@ -298,64 +300,65 @@
             />
             <%}%>
 
-            <a href="" target="_blank" style="display: block; width: 25%"
+            <!-- <a href="" target="_blank" style="display: block; width: 25%"
               ><button id="register" class="btnss">Register</button></a
-            >
+            > -->
           </form>
+
+          <script>
+            //pre event
+            let pop_text = document.querySelector(".pop_text");
+            pop_text.textContent = "";
+            const formPre = document.getElementById(`register-form`);
+            formPre.addEventListener("submit", async (event) => {
+              event.preventDefault();
+              let names = "";
+              let teamEvent = false;
+              const nameArray = event.target.name;
+              let team_size = 0;
+              for (let nameEle of nameArray) {
+                names += nameEle.value + ",";
+                team_size++;
+                teamEvent = true;
+              }
+              const newNames = names.slice(0, -1);
+              var today = new Date();
+              var dd = String(today.getDate()).padStart(2, "0");
+              var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+              var yyyy = today.getFullYear();
+
+              today = mm + "/" + dd + "/" + yyyy;
+              const user = JSON.parse(localStorage.getItem("user"));
+              const response = await fetch("/registration", {
+                method: "POST",
+                body: JSON.stringify({
+                  eventId: event.target.eventId.value,
+                  date: today,
+                  isTeamEvent: teamEvent,
+                  teamSize: team_size,
+                  names: newNames,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${user.authToken}`,
+                },
+              });
+              const data = await response.json();
+              if (data.success) {
+                pop_text.textContent = "Registered";
+                openPopup();
+              } else {
+                pop_text.textContent = "Already Registered";
+                openPopup();
+              }
+            });
+          </script>
 
           <%}%>
         </div>
       </div>
     </div>
 
-    <script>
-      //pre event
-      let pop_text = document.querySelector(".pop_text");
-      pop_text.textContent = "";
-      const formPre = document.getElementById(`register-form`);
-      formPre.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        let names = "";
-        let teamEvent = false;
-        const nameArray = event.target.name;
-        let team_size = 0;
-        for (let nameEle of nameArray) {
-          names += nameEle.value + ",";
-          team_size++;
-          teamEvent = true;
-        }
-        const newNames = names.slice(0, -1);
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, "0");
-        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = mm + "/" + dd + "/" + yyyy;
-        const user = JSON.parse(localStorage.getItem("user"));
-        const response = await fetch("/registration", {
-          method: "POST",
-          body: JSON.stringify({
-            eventId: event.target.eventId.value,
-            date: today,
-            isTeamEvent: teamEvent,
-            teamSize: team_size,
-            names: newNames,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.authToken}`,
-          },
-        });
-        const data = await response.json();
-        if (data.success) {
-          pop_text.textContent = "Registered";
-          openPopup();
-        } else {
-          pop_text.textContent = "Already Registered";
-          openPopup();
-        }
-      });
-    </script>
     <script>
       const signed_user =
         localStorage.getItem("user") &&
@@ -387,6 +390,10 @@
         pop_text.textContent = "";
         document.getElementById("popup").style.display = "none";
       }
+
+      let quil_text = document.querySelector("#quil_txt");
+   //   let quil='<%=event.desc%>'
+      quil_text.innerHTML = '<%=event.desc%>'
     </script>
   </body>
 </html>
