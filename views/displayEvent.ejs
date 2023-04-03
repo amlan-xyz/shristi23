@@ -176,7 +176,7 @@
       <div class="containerss row">
         <div class="hero__text">
           <p class="ps">Description : <%=event.desc%></p>
-          <%if(event.youtubeLink){%>
+          <%if(event.youtubeLink!='-'){%>
           <a
             style="display: block; width: 50%; margin-bottom: 1rem"
             href="<%=event.youtubeLink%>"

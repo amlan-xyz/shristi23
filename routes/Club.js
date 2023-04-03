@@ -64,6 +64,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/admin", async (req, res) => {
+  try {
+    
+    const clubs = await Club.find();
+    res.json(clubs);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+
 router.put(
   "/edit/:id",
   [fetchAdmin, multer().single("file")],

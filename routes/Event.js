@@ -51,10 +51,10 @@ router.post("/", [fetchAdmin, multer().single("file")], async (req, res) => {
       createdBy: req.user.id,
       isPaid: req.body.isPaid,
       priceO: req.body.priceO ? req.body.priceO : "",
-      priceN: req.body.priceN ? req.body.priceN : "",
       isMainEvent: req.body.isMainEvent,
-      isTeamEvent:req.body.isTeamEvent,
-      teamSize:req.body.isTeamEvent?req.body.teamSize:0
+      isTeamEvent: req.body.isTeamEvent,
+      teamSize: req.body.isTeamEvent ? req.body.teamSize : 0,
+      youtubeLink: req.body.link ? req.body.link : "-",
     });
     res.json(EventData);
   } catch (error) {
@@ -106,6 +106,26 @@ router.get("/noAuth/:id", async (req, res) => {
   }
 });
 
+router.get("/admin/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const events = await Event.find({ club: id });
+    const resPreEvents = [];
+    const resMainEvents = [];
+    events.map((event) => {
+      event.isMainEvent ? resMainEvents.push(event) : resPreEvents.push(event);
+    });
+
+    // res.render("events", { resMainEvents, resPreEvents });
+
+    res.json([resMainEvents, resPreEvents]);
+
+    // res.status(200).json([resPreEvents, resMainEvents]);
+  } catch (error) {
+    res.status(500).send("Something went wrong");
+  }
+});
+
 router.get("/:id", fetchUserParams, async (req, res) => {
   // console.log(req.params);
   try {
@@ -137,13 +157,16 @@ router.get("/:id", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-              (outsider && !event.isOpen ? true : false) ||
-              (event.disabled ? true : false),
-            isPaid: event.isPaid,
-            price: outsider ? event.priceO : event.priceN,
-            qrCode: event.isPaid ? club.qrCode : null,
-            upi: event.isPaid ? club.upi : null,
-            phoneNo: event.isPaid ? club.phoneNo : null,
+            (outsider && !event.isOpen ? true : false) ||
+            (event.disabled ? true : false),
+          isPaid: outsider ? event.isPaid : false,
+          price: outsider ? event.priceO : "",
+          qrCode: event.isPaid ? club.qrCode : null,
+          upi: event.isPaid ? club.upi : null,
+          phoneNo: event.isPaid ? club.phoneNo : null,
+          youtubeLink:event.youtubeLink,
+          isTeamEvent:event.isTeamEvent,
+          teamSize:event.teamSize
           })
         : resPreEvents.push({
             id: event._id,
@@ -159,13 +182,16 @@ router.get("/:id", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-              (outsider && !event.isOpen ? true : false) ||
-              (event.disabled ? true : false),
-            isPaid: event.isPaid,
-            price: outsider ? event.priceO : event.priceN,
-            qrCode: event.isPaid ? club.qrCode : null,
-            upi: event.isPaid ? club.upi : null,
-            phoneNo: event.isPaid ? club.phoneNo : null,
+            (outsider && !event.isOpen ? true : false) ||
+            (event.disabled ? true : false),
+          isPaid: outsider ? event.isPaid : false,
+          price: outsider ? event.priceO : "",
+          qrCode: event.isPaid ? club.qrCode : null,
+          upi: event.isPaid ? club.upi : null,
+          phoneNo: event.isPaid ? club.phoneNo : null,
+          youtubeLink:event.youtubeLink,
+          isTeamEvent:event.isTeamEvent,
+          teamSize:event.teamSize
           });
     });
     res.render('events',{resMainEvents,resPreEvents});
@@ -207,11 +233,12 @@ router.get("/:id/:token", fetchUserParams, async (req, res) => {
             disabled:
               (outsider && !event.isOpen ? true : false) ||
               (event.disabled ? true : false),
-            isPaid: event.isPaid,
-            price: outsider ? event.priceO : event.priceN,
+            isPaid: outsider ? event.isPaid : false,
+            price: outsider ? event.priceO : "",
             qrCode: event.isPaid ? club.qrCode : null,
             upi: event.isPaid ? club.upi : null,
             phoneNo: event.isPaid ? club.phoneNo : null,
+            youtubeLink:event.youtubeLink,
             isTeamEvent:event.isTeamEvent,
             teamSize:event.teamSize
           })
@@ -229,15 +256,16 @@ router.get("/:id/:token", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-              (outsider && !event.isOpen ? true : false) ||
-              (event.disabled ? true : false),
-            isPaid: event.isPaid,
-            price: outsider ? event.priceO : event.priceN,
-            qrCode: event.isPaid ? club.qrCode : null,
-            upi: event.isPaid ? club.upi : null,
-            phoneNo: event.isPaid ? club.phoneNo : null,
-            isTeamEvent:event.isTeamEvent,
-            teamSize:event.teamSize
+            (outsider && !event.isOpen ? true : false) ||
+            (event.disabled ? true : false),
+          isPaid: outsider ? event.isPaid : false,
+          price: outsider ? event.priceO : "",
+          qrCode: event.isPaid ? club.qrCode : null,
+          upi: event.isPaid ? club.upi : null,
+          phoneNo: event.isPaid ? club.phoneNo : null,
+          youtubeLink:event.youtubeLink,
+          isTeamEvent:event.isTeamEvent,
+          teamSize:event.teamSize
           });
     });
     res.render('events',{resMainEvents,resPreEvents});
