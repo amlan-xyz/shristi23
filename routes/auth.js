@@ -58,7 +58,6 @@ router.post(
         phoneNo: req.body.phoneNo,
         regNo,
         userType: req.body.userType === "s" ? "s" : "o",
-        // userType:'a'
       });
       const data = {
         user: {
