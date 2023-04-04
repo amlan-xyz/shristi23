@@ -541,13 +541,14 @@ router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
       isPaid: eventSingle.isPaid,
       price: outsider ? eventSingle.priceO : eventSingle.priceN,
       isVerified: registeration?.isVerified,
-      isMainEvent: eventSingle.isMainEvent,
       qrCode: club.qrCode,
       upi: club.upi,
       phoneNo: club.phoneNo,
       isMainEvent: eventSingle.isMainEvent,
+      isTeamEvent:eventSingle.isTeamEvent,
+      teamSize:eventSingle.teamSize
     };
-
+    console.log(eventSingle.teamSize)
     // res.json(result);
     res.render("displayEvent", { event });
   } catch (error) {

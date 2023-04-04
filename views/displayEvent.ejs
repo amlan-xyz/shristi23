@@ -244,7 +244,7 @@
               name="<%=event.teamSize%>"
             />
 
-            <% let val=event.teamSize %> <% for(let j=0;j< val-1; j++) {%>
+            <% let val=event.teamSize %> <% for(let j=0;j< val -1; j++) {%>
             <input
               type="text"
               name="name"
@@ -256,7 +256,8 @@
             <!-- <a href="" target="_blank" style="display: block; width: 25%"
               ><button id="register" class="btnss">Register</button></a
             > -->
-            <!-- <button type="submit" id="register">register</button> -->
+            <button type="submit" id="register" class="btnss"> <%= event.isRegistered?"Register": "Registered" %> </button>
+          </form>
 
             <script>
               let pop_text = document.querySelector(".pop_text");
@@ -269,12 +270,23 @@
                 let names = "";
                 let teamEvent = false;
                 const nameArray = event.target.name;
-                let team_size = 0;
-                for (let nameEle of nameArray) {
-                  names += nameEle.value + ",";
-                  team_size++;
-                  teamEvent = true;
+                
+                let team_size = "<%= event.teamSize%>"-1;
+                console.log(team_size)
+                if(team_size!=1){
+
+                  for (let nameEle of nameArray) {
+                    names += nameEle.value + ",";
+                    team_size++;
+                    teamEvent = true;
+                  }
                 }
+                else{
+                  names += nameArray.value + ",";
+                    team_size++;
+                    teamEvent = true;
+                }
+
                 const newNames = names.slice(0, -1);
                 var today = new Date();
                 var dd = String(today.getDate()).padStart(2, "0");
@@ -283,6 +295,7 @@
 
                 today = mm + "/" + dd + "/" + yyyy;
                 const user = JSON.parse(localStorage.getItem("user"));
+                // return
                 const response = await fetch("/registration", {
                   method: "POST",
                   body: JSON.stringify({
@@ -307,7 +320,6 @@
                 }
               });
             </script>
-          </form>
 
           <%}else{%>
           <form id="register-form">
