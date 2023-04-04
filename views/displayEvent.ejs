@@ -8,6 +8,10 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <!-- <link rel="stylesheet" href="/navbar/navbar.css" /> -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- Include script -->
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
     <link rel="stylesheet" href="/details/detailstyle.css" />
     <link rel="stylesheet" href="/popup.css" />
     <style>
@@ -67,6 +71,9 @@
 
       .nav .nav-links .displayNone {
         display: none;
+      }
+      body{
+        color: #fff !important;
       }
 
       @media (max-width: 600px) {
@@ -175,7 +182,36 @@
       </div>
       <div class="containerss row">
         <div class="hero__text">
-          <p class="ps">Description: <div id="quil_txt"></div></p>
+          
+          
+          
+          <p class="ps">Description:
+            <div id="desc" >
+              </div>
+            <script>
+              var myHeaders = new Headers();
+              const user= localStorage.getItem("user")&&JSON.parse(localStorage.getItem("user"))
+            // myHeaders.append("Authorization", "Bearer " + user.authToken);
+            
+            var requestOptions = {
+              method: 'GET',
+              headers: myHeaders,
+              redirect: 'follow'
+            };
+
+            fetch("http://localhost:5000/events/event/noAuth/"+"<%= event.id%>", requestOptions)
+              .then(response => response.json())
+              .then(result => {
+                const parser = new DOMParser();
+                const htmlString = result.desc;
+                const parsedDocument = parser.parseFromString(htmlString, "text/html");
+                const target = document.getElementById("desc");
+                target.appendChild(parsedDocument.documentElement);
+              })
+              .catch(error => console.log('error', error));
+
+              </script>
+               </p>
           <%if(event.youtubeLink!='-'){%>
           <a
             style="display: block; width: 50%; margin-bottom: 1rem"
@@ -278,7 +314,7 @@
               type="text"
               class="displayNone"
               id="eventId"
-              value="<%=event._id%>"
+              value="<%=event.id%>"
               name="eventId"
             />
 
@@ -391,9 +427,7 @@
         document.getElementById("popup").style.display = "none";
       }
 
-      let quil_text = document.querySelector("#quil_txt");
-   //   let quil='<%=event.desc%>'
-      quil_text.innerHTML = '<%=event.desc%>'
+      
     </script>
   </body>
 </html>

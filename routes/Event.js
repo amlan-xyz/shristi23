@@ -13,10 +13,12 @@ const Event = require("../models/Event");
 const Register = require("../models/Register");
 const fetchuser = require("../middleware/fetchuser");
 const fetchAdmin = require("../middleware/fetchAdmin");
-const fetchUserParams=require("../middleware/fetchUserParams")
+const fetchUserParams = require("../middleware/fetchUserParams");
 const { async } = require("@firebase/util");
 const User = require("../models/User");
 const Club = require("../models/Club");
+const { parse } = require("node-html-parser");
+
 // const { events } = require("../models/Event");
 
 router.post("/", [fetchAdmin, multer().single("file")], async (req, res) => {
@@ -97,9 +99,8 @@ router.get("/noAuth/:id", async (req, res) => {
       event.isMainEvent ? resMainEvents.push(event) : resPreEvents.push(event);
     });
 
+    res.render("noAuthEvent", { resMainEvents, resPreEvents });
 
-    res.render('noAuthEvent',{resMainEvents,resPreEvents});
-  
     // res.status(200).json([resPreEvents, resMainEvents]);
   } catch (error) {
     res.status(500).send("Something went wrong");
@@ -157,16 +158,16 @@ router.get("/:id", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-            (outsider && !event.isOpen ? true : false) ||
-            (event.disabled ? true : false),
-          isPaid: outsider ? event.isPaid : false,
-          price: outsider ? event.priceO : "",
-          qrCode: event.isPaid ? club.qrCode : null,
-          upi: event.isPaid ? club.upi : null,
-          phoneNo: event.isPaid ? club.phoneNo : null,
-          youtubeLink:event.youtubeLink,
-          isTeamEvent:event.isTeamEvent,
-          teamSize:event.teamSize
+              (outsider && !event.isOpen ? true : false) ||
+              (event.disabled ? true : false),
+            isPaid: outsider ? event.isPaid : false,
+            price: outsider ? event.priceO : "",
+            qrCode: event.isPaid ? club.qrCode : null,
+            upi: event.isPaid ? club.upi : null,
+            phoneNo: event.isPaid ? club.phoneNo : null,
+            youtubeLink: event.youtubeLink,
+            isTeamEvent: event.isTeamEvent,
+            teamSize: event.teamSize,
           })
         : resPreEvents.push({
             id: event._id,
@@ -182,19 +183,19 @@ router.get("/:id", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-            (outsider && !event.isOpen ? true : false) ||
-            (event.disabled ? true : false),
-          isPaid: outsider ? event.isPaid : false,
-          price: outsider ? event.priceO : "",
-          qrCode: event.isPaid ? club.qrCode : null,
-          upi: event.isPaid ? club.upi : null,
-          phoneNo: event.isPaid ? club.phoneNo : null,
-          youtubeLink:event.youtubeLink,
-          isTeamEvent:event.isTeamEvent,
-          teamSize:event.teamSize
+              (outsider && !event.isOpen ? true : false) ||
+              (event.disabled ? true : false),
+            isPaid: outsider ? event.isPaid : false,
+            price: outsider ? event.priceO : "",
+            qrCode: event.isPaid ? club.qrCode : null,
+            upi: event.isPaid ? club.upi : null,
+            phoneNo: event.isPaid ? club.phoneNo : null,
+            youtubeLink: event.youtubeLink,
+            isTeamEvent: event.isTeamEvent,
+            teamSize: event.teamSize,
           });
     });
-    res.render('events',{resMainEvents,resPreEvents});
+    res.render("events", { resMainEvents, resPreEvents });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -238,9 +239,9 @@ router.get("/:id/:token", fetchUserParams, async (req, res) => {
             qrCode: event.isPaid ? club.qrCode : null,
             upi: event.isPaid ? club.upi : null,
             phoneNo: event.isPaid ? club.phoneNo : null,
-            youtubeLink:event.youtubeLink,
-            isTeamEvent:event.isTeamEvent,
-            teamSize:event.teamSize
+            youtubeLink: event.youtubeLink,
+            isTeamEvent: event.isTeamEvent,
+            teamSize: event.teamSize,
           })
         : resPreEvents.push({
             id: event._id,
@@ -256,19 +257,19 @@ router.get("/:id/:token", fetchUserParams, async (req, res) => {
             venue: event.venue,
             club: event.club,
             disabled:
-            (outsider && !event.isOpen ? true : false) ||
-            (event.disabled ? true : false),
-          isPaid: outsider ? event.isPaid : false,
-          price: outsider ? event.priceO : "",
-          qrCode: event.isPaid ? club.qrCode : null,
-          upi: event.isPaid ? club.upi : null,
-          phoneNo: event.isPaid ? club.phoneNo : null,
-          youtubeLink:event.youtubeLink,
-          isTeamEvent:event.isTeamEvent,
-          teamSize:event.teamSize
+              (outsider && !event.isOpen ? true : false) ||
+              (event.disabled ? true : false),
+            isPaid: outsider ? event.isPaid : false,
+            price: outsider ? event.priceO : "",
+            qrCode: event.isPaid ? club.qrCode : null,
+            upi: event.isPaid ? club.upi : null,
+            phoneNo: event.isPaid ? club.phoneNo : null,
+            youtubeLink: event.youtubeLink,
+            isTeamEvent: event.isTeamEvent,
+            teamSize: event.teamSize,
           });
     });
-    res.render('events',{resMainEvents,resPreEvents});
+    res.render("events", { resMainEvents, resPreEvents });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -351,6 +352,7 @@ router.put(
     }
   }
 );
+
 router.get("/event/:id", fetchuser, async (req, res) => {
   // console.log(req.params);
   try {
@@ -364,7 +366,6 @@ router.get("/event/:id", fetchuser, async (req, res) => {
     if (!event) {
       res.status(206).json({ error: "Please give a valid event id" });
     }
-    
 
     const registeration = await Register.findOne({
       eventId: id,
@@ -426,13 +427,6 @@ router.get("/event/noAuth/:id", async (req, res) => {
       res.status(206).json({ error: "Please give a valid event id" });
     }
 
-    // const registeration = await Register.findOne({ eventId: id,regNo:user.regNo });
-    // if (!registeration) {
-    //   res.status(206).json({ error: "Please give a valid registration id" });
-    // }
-    // console.log(registeration)
-    // const resEvents = [];
-    // events.map((event) => {
     const club = await Club.findById(event.club);
     const result = {
       id: event._id,
@@ -492,10 +486,81 @@ router.put("/disable/:id", fetchAdmin, async (req, res) => {
 //   }
 // })
 
-router.get('/display/event/:id',async(req,res)=>{
-  const {id}=req.params;
-  const event=await Event.findById(id);
-  res.render('displayEvent',{event});
-})
+// router.get("/display/event/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const event = await Event.findById(id);
+  
+//   const html = event.desc
+//   console.log(html)
+
+
+//   res.render("displayEvent", { event });
+// });
+router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
+  
+  try {
+    const id = req.params.id;
+    const user = await User.findById(req.user.id);
+    const outsider = user.userType === "o";
+    if (!id) {
+      res.status(206).json({ error: "Please give a valid event id" });
+    }
+    const eventSingle = await Event.findById(id);
+    if (!eventSingle) {
+      res.status(206).json({ error: "Please give a valid event id" });
+    }
+
+    const registeration = await Register.findOne({
+      eventId: id,
+      regNo: user.regNo,
+    });
+    console.log(eventSingle.isMainEvent);
+    const club = await Club.findById(eventSingle.club);
+
+    // console.log(club)
+    // if (!registeration) {
+    //   res.status(206).json({ error: "Please give a valid registration id" });
+    // }
+    console.log(registeration);
+    // const resEvents = [];
+    // events.map((event) => {
+    const event = {
+      id: eventSingle._id,
+      name: eventSingle.name,
+      date: eventSingle.date,
+      time: eventSingle.time,
+      club: eventSingle.clubId,
+      clubName: eventSingle.clubName,
+      image: eventSingle.image,
+      desc: eventSingle.desc,
+      isRegistered: eventSingle.user.includes(req.user.id),
+      clubName: eventSingle.clubName,
+      venue: eventSingle.venue,
+      club: eventSingle.club,
+      disabled:
+        (outsider && !eventSingle.isOpen ? true : false) ||
+        (eventSingle.disabled ? true : false),
+      isPaid: eventSingle.isPaid,
+      price: outsider ? eventSingle.priceO : eventSingle.priceN,
+      isVerified: registeration?.isVerified,
+      isMainEvent: eventSingle.isMainEvent,
+      qrCode: club.qrCode,
+      upi: club.upi,
+      phoneNo: club.phoneNo,
+      isMainEvent: eventSingle.isMainEvent,
+    };
+
+    // res.json(result);
+    res.render("displayEvent", { event });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+  
+
+
+  
+});
 
 module.exports = router;

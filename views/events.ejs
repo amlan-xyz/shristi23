@@ -96,7 +96,20 @@
 
 		const preSize=document.getElementById('preSize').value;
 
+		const aLinks=document.getElementsByClassName("button")
+		const user = localStorage.getItem("user")&&JSON.parse(localStorage.getItem("user"))
+		if(user){
+			for( link of aLinks){
+			let href = link.getAttribute("href");
+			link.setAttribute("href", href +"/" + user.authToken);
+			console.log(href)
 
+		}
+		}
+		else{
+			window.location.href='/auth/login'
+		}
+		
 
 		for(let i=0;i<preSize;i++){
 			const form  = document.getElementById(`register-form${i}`);
