@@ -486,16 +486,14 @@ router.put("/disable/:id", fetchAdmin, async (req, res) => {
 //   }
 // })
 
-// router.get("/display/event/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const event = await Event.findById(id);
+router.get("/display/event/:id", async (req, res) => {
+  const { id } = req.params;
+  const event = await Event.findById(id);
   
-//   const html = event.desc
-//   console.log(html)
 
 
-//   res.render("displayEvent", { event });
-// });
+  res.render("displayEvent", { event });
+});
 router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
   
   try {
@@ -525,7 +523,7 @@ router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
     // const resEvents = [];
     // events.map((event) => {
     const event = {
-      id: eventSingle._id,
+      _id: eventSingle._id,
       name: eventSingle.name,
       date: eventSingle.date,
       time: eventSingle.time,

@@ -199,10 +199,11 @@
               redirect: 'follow'
             };
 
-            fetch("http://localhost:5000/events/event/noAuth/"+"<%= event.id%>", requestOptions)
+            fetch("http://localhost:5000/events/event/noAuth/"+"<%= event._id%>", requestOptions)
               .then(response => response.json())
               .then(result => {
                 const parser = new DOMParser();
+                // console.log(result)
                 const htmlString = result.desc;
                 const parsedDocument = parser.parseFromString(htmlString, "text/html");
                 const target = document.getElementById("desc");
@@ -314,7 +315,7 @@
               type="text"
               class="displayNone"
               id="eventId"
-              value="<%=event.id%>"
+              value="<%=event._id%>"
               name="eventId"
             />
 
