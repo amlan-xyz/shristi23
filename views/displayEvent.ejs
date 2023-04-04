@@ -182,15 +182,15 @@
       </div>
       <div class="containerss row">
         <div class="hero__text">
-          
-          
-          
           <p class="ps">Description:
             <div id="desc" >
               </div>
             <script>
               var myHeaders = new Headers();
               const user= localStorage.getItem("user")&&JSON.parse(localStorage.getItem("user"))
+          
+          
+          
             // myHeaders.append("Authorization", "Bearer " + user.authToken);
             
             var requestOptions = {
@@ -224,7 +224,11 @@
           <p class="ps">
             Venue : <%=event.venue%> at <%=event.date%> ,<%=event.time%>
           </p>
-          <h3 style="color: azure; margin-bottom: 1rem">Add team members</h3>
+
+          <%if(event.teamSize){%>
+            <h3 style="color: azure; margin-bottom: 1rem">Add team members</h3>
+           <%}%> 
+          
 
           <%if(event.isMainEvent){%>
           <form id="main-register-form">
@@ -253,9 +257,7 @@
               placeholder="Team member name"
             />
             <%}%>
-            <!-- <a href="" target="_blank" style="display: block; width: 25%"
-              ><button id="register" class="btnss">Register</button></a
-            > -->
+
             <button type="submit" id="register" class="btnss"> <%= event.isRegistered?"Register": "Registered" %> </button>
           </form>
 
@@ -349,9 +351,9 @@
             />
             <%}%>
 
-            <!-- <a href="" target="_blank" style="display: block; width: 25%"
+            <a href="" class="submit-btn-display" target="_blank" style="display:none; width: 25%"
               ><button id="register" class="btnss">Register</button></a
-            > -->
+            >
           </form>
 
           <script>
@@ -415,7 +417,7 @@
 
       const logout_btn = document.querySelector("#logout-btn");
       const login_btn = document.querySelector("#login-btn");
-
+      const submit_btn_display=document.querySelector('.submit-btn-display')
       if (signed_user) {
         toggleClass();
       }
@@ -423,6 +425,7 @@
       function toggleClass() {
         login_btn.classList.toggle("displayNone");
         logout_btn.classList.toggle("displayNone");
+        submit_btn_display.style.display='block';
       }
 
       logout_btn.addEventListener("click", () => {
