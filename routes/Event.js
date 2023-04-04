@@ -545,7 +545,8 @@ router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
       qrCode: club.qrCode,
       upi: club.upi,
       phoneNo: club.phoneNo,
-      isMainEvent: eventSingle.isMainEvent,
+      isTeamEvent:eventSingle.isTeamEvent,
+      teamSize:eventSingle.teamSize,
     };
 
     // res.json(result);
