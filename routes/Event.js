@@ -316,6 +316,7 @@ router.put(
       }
 
       console.log(req.body);
+      const user = await User.findById(req.user.id);
 
       if (req.body.name) newEvent.name = req.body.name;
       if (req.body.date) newEvent.date = req.body.date;
@@ -331,9 +332,14 @@ router.put(
       if (req.body.isPaid) newEvent.isPaid = req.body.isPaid;
       if (req.body.priceO)
         newEvent.priceO = req.body.priceO ? req.body.priceO : "";
-      if (req.body.priceN)
-        newEvent.priceN = req.body.priceN ? req.body.priceN : "";
+
       if (req.body.isMainEvent) newEvent.isMainEvent = req.body.isMainEvent;
+      if (req.body.link) newEvent.youtubeLink = req.body.link;
+      if (req.body.isTeamEvent)
+      {
+        newEvent.isTeamEvent = req.body.isTeamEvent;
+        newEvent.teamSize=req.body.teamSize
+      } 
 
       const event = await Event.findById(req.params.id);
       if (!event) throw "Event Not found!";
@@ -489,13 +495,10 @@ router.put("/disable/:id", fetchAdmin, async (req, res) => {
 router.get("/display/event/:id", async (req, res) => {
   const { id } = req.params;
   const event = await Event.findById(id);
-  
-
 
   res.render("displayEvent", { event });
 });
-router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
-  
+router.get("/display/event/:id/:token", fetchUserParams, async (req, res) => {
   try {
     const id = req.params.id;
     const user = await User.findById(req.user.id);
@@ -545,21 +548,16 @@ router.get("/display/event/:id/:token",fetchUserParams, async (req, res) => {
       upi: club.upi,
       phoneNo: club.phoneNo,
       isMainEvent: eventSingle.isMainEvent,
-      isTeamEvent:eventSingle.isTeamEvent,
-      teamSize:eventSingle.teamSize
+      isTeamEvent: eventSingle.isTeamEvent,
+      teamSize: eventSingle.teamSize,
     };
-    console.log(eventSingle.teamSize)
+    console.log(eventSingle.teamSize);
     // res.json(result);
     res.render("displayEvent", { event });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
-
-  
-
-
-  
 });
 
 module.exports = router;
