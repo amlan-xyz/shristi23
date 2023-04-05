@@ -199,7 +199,7 @@
               redirect: 'follow'
             };
 
-            fetch("http://localhost:5000/events/event/noAuth/"+"<%= event._id%>", requestOptions)
+            fetch("https://shristi2k23.com/events/event/noAuth/"+"<%= event._id%>", requestOptions)
               .then(response => response.json())
               .then(result => {
                 const parser = new DOMParser();
@@ -225,7 +225,7 @@
             Venue : <%=event.venue%> at <%=event.date%> ,<%=event.time%>
           </p>
 
-          <%if(event.teamSize){%>
+          <%if(event.isTeamEvent){%>
             <h3 style="color: azure; margin-bottom: 1rem">Add team members</h3>
            <%}%> 
           
@@ -257,9 +257,11 @@
               placeholder="Team member name"
             />
             <%}%>
-
-            <button type="submit" id="register" class="btnss"> <%= event.isRegistered?"Register": "Registered" %> </button>
-          </form>
+            <!-- <a href="" class="submit-btn-display" target="_blank" style="display:none; width: 25%"
+            ><button id="register" class="btnss">Register</button></a
+          > -->
+        </form>
+            
 
             <script>
               let pop_text = document.querySelector(".pop_text");
@@ -351,9 +353,9 @@
             />
             <%}%>
 
-            <a href="" class="submit-btn-display" target="_blank" style="display:none; width: 25%"
+            <!-- <a href="" class="submit-btn-display" target="_blank" style="display:none; width: 25%"
               ><button id="register" class="btnss">Register</button></a
-            >
+            > -->
           </form>
 
           <script>
