@@ -129,7 +129,9 @@ router.put("/verify/:id", fetchAdmin, async (req, res) => {
       res.status(226).send({ message: "Payment rejected...!" });
     }
   } catch (error) {
+
     res.status(500).json({ error: "Someting Went wrong" });
+  
   }
 });
 
