@@ -373,12 +373,21 @@
               let names = "";
               let teamEvent = false;
               const nameArray = event.target.name;
-              let team_size = 0;
-              for (let nameEle of nameArray) {
-                names += nameEle.value + ",";
-                team_size++;
-                teamEvent = true;
-              }
+              let team_size = "<%= event.teamSize%>"-1;
+                console.log(team_size)
+                if(team_size!=1){
+
+                  for (let nameEle of nameArray) {
+                    names += nameEle.value + ",";
+                    team_size++;
+                    teamEvent = true;
+                  }
+                }
+                else{
+                  names += nameArray.value + ",";
+                    team_size++;
+                    teamEvent = true;
+                }
               const newNames = names.slice(0, -1);
               var today = new Date();
               var dd = String(today.getDate()).padStart(2, "0");
