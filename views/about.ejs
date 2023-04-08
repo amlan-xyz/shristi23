@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Global</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+  <link rel="stylesheet" href="about.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" href="logo1.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+
+  <style> 
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap');
+
+  
+.nav {
+    height: 80px;
+    width: 100%;
+    background-color: #0c021d;
+    position: relative;
+  }
+  
+  .nav > .nav-header {
+    display: inline;
+  }
+  
+  .nav > .nav-header > .nav-title {
+    display: inline-block;
+    font-size: 22px;
+    color: #fff;
+    padding: 10px 10px 10px 10px;
+    
+  }
+  
+  .nav > .nav-btn {
+    display: none;
+  }
+  
+  .nav > .nav-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+    margin-right: 2rem;
+  }
+  
+  .nav > .nav-links > a {
+    display: inline-block;
+    padding: 13px 10px 13px 10px;
+    text-decoration: none;
+    color: #efefef;
+    margin-top: 1rem;
+  }
+  
+  .nav > .nav-links > a:hover {
+    background-color: rgba(71, 32, 245, 0.3);
+  }
+  
+  .nav > #nav-check {
+    display: none;
+  }
+  
+  
+  @media (max-width:600px) {
+    .nav > .nav-btn {
+      display: inline-block;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+    .nav > .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+    }
+    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    .nav > .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 10px;
+      border-top: 2px solid #eee;
+    }
+    .nav > .nav-links {
+		  z-index: 10;
+      margin-top: 3rem;
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color:#02101c;
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 50px;
+      left: 0px;
+    }
+    .nav > .nav-links > a {
+      display: block;
+      width: 100%;
+    }
+    .nav > #nav-check:not(:checked) ~ .nav-links {
+      height: 0px;
+    }
+    .nav > #nav-check:checked ~ .nav-links {
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+    }
+  }
+  :root{
+    --blue:#478dc7;
+    --dark-blue:#5ee2dc;
+}
+
+*{
+    
+    margin:0; padding:0;
+    box-sizing: border-box;
+    text-decoration: none;
+    outline: none;
+    border:none;
+    text-transform: capitalize;
+    transition: all .3s cubic-bezier(.38,1.15,.7,1.12);
+}
+
+*::selection{
+    background:var(--dark-blue);
+    color:rgb(81, 85, 82);
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+section{
+    min-height: 100vh;
+    padding:1rem 9%;
+    padding-top: 8rem;
+    background-color: rgb(43, 42, 41);
+}
+
+.executive{
+    font-family: 'Poppins', sans-serif;
+  background-color: #02101c;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.executive .box-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+}
+
+.executive .box-container .box{
+    border-radius: .5rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+    padding:1rem;
+    margin:1.5rem;
+    text-align: center;
+    background:#fff;
+    border:.1rem solid rgba(0,0,0,.1);
+    width:33rem;
+    background-color: rgb(13, 102, 124);
+}
+
+.executive .box-container .box img{
+    margin:1rem;
+    border-radius: 50%;
+    height:20rem;
+    width:20rem;
+    object-fit: cover;
+    background:var(--blue);
+}
+
+.executive .box-container .box h3{
+    font-size: 2rem;
+    color: rgb(253, 252, 252);;
+}
+.executive .box-container .box h4{
+    font-size: 2rem;
+    color:#8a8aff;
+}
+
+.executive .box-container .box span{
+    font-size: 1.5rem;
+    color:var(--dark-blue);
+}
+
+.executive .box-container .box .share{
+    border-top: .1rem solid rgba(0,0,0,.1);
+    padding:1rem;
+    margin-top: 1rem;
+}
+
+.executive .box-container .box .share a{
+    border-radius: 50%;
+    height: 4.5rem;
+    width:4.5rem;
+    line-height: 4.5rem;
+    font-size: 2rem;
+    margin: .4rem;
+    background:#eee;
+    color:var(--blue);
+}
+
+.executive .box-container .box .share a:hover{
+    background:var(--blue);
+    color:#fff;
+    transform: rotate(360deg);
+}
+
+
+
+ 
+  </style>
+ 
+
+</head>
+<body style="background-color: #02101c;">
+
+  <div class="nav">
+    <input type="checkbox" id="nav-check">
+    <div class="nav-header">
+      <div class="nav-title">
+
+        <a href="#0">
+          <img style=" height: 65px;width: 85px;padding-top: 2px;padding-left: 10px;" src="../assets/img/logo.png" alt="Global">
+          <p></p>
+        </a>
+        
+      </div>
+    </div>
+    <div class="nav-btn">
+
+      <label for="nav-check">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+    </div>
+    <div class="nav-links" >
+      <a href="../index.html">Home</a>
+      <a href="../Sign up_in/Sign In.html">Signup</a>
+      <a href="">Clubs</a>
+    </div>
+  </div>
+
+
+  <section class="executive" id="contacts">
+    <div class="box-container">
+  
+      <div class="box">
+          <img src="../assets/img/amlan.jpeg" alt="">
+          <h3>Amlanjyoti Saikia</h3>
+          <h4>Hosting & Backend Developer</h4>
+          <div class="share">
+              <a href="#"  class="fab fa-facebook-f"></a>
+              <a href="https://www.instagram.com/the.weird.0ne__/" target="_blank" class="fab fa-instagram"></a>
+              <a href="https://www.linkedin.com/in/amlanjyoti-saikia-5b280b1bb/" target="_blank" class="fab fa-linkedin"></a>
+              
+          </div>
+      </div>
+  
+      <div class="box">
+          <img src="../assets/img/sur.jpeg" alt="">
+          <h3>Moirangthem Surchandra</h3>
+          <h4>Frontend Developer</h4>
+          <div class="share">
+              <a href="https://www.facebook.com/sur.mozard" target="_blank" class="fab fa-facebook-f"></a>
+              <a href="https://www.instagram.com/surmoirangcha/" target="_blank" class="fab fa-instagram"></a>
+              <a href="https://www.linkedin.com/in/moirangthem-surchandra/" class="fab fa-linkedin" target="_blank"> </a>
+          </div>
+      </div>
+  
+      <div class="box">
+          <img src="../assets/img/nico.jpeg" alt="">
+          <h3>Nicholash Kangujam</h3>
+          <h4>Frontend Developer</h4>
+          <div class="share">
+              <a href="https://www.facebook.com/nicon.magnus" target="_blank" class="fab fa-facebook-f"></a>
+              <a href="https://www.instagram.com/nico_00_10/" target="_blank" class="fab fa-instagram"></a>
+              <a href="https://www.linkedin.com/in/nicholash-kangujam-8567a7240/" class="fab fa-linkedin" target="_blank"></a>
+          </div>
+      </div>
+  
+      <div class="box">
+        <img src="../assets/img/varun.jpeg" alt="">
+        <h3>Varun Singh Bisht</h3>
+        <h4>Frontend Developer</h4>
+        <div class="share">
+            <a href="#"  class="fab fa-facebook-f"></a>
+            <a href="https://www.instagram.com/varun_singh_bisht/" target="_blank" class="fab fa-instagram"></a>
+            <a href="https://www.linkedin.com/in/varun-bisht-1939a4196/" class="fab fa-linkedin" target="_blank"></a>            
+        </div>
+    </div>
+  
+    <div class="box">
+        <img src="../assets/img/vivek.jpeg" alt="">
+        <h3>Vivek Shah</h3>
+        <h4>Backend Developer</h4>
+        <div class="share">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#"  class="fab fa-instagram"></a>
+            <a class="fab fa-linkedin" target="_blank"></a>
+        </div>
+    </div>
+  
+    <div class="box">
+        <img src="../assets/img/hibjul.jpeg" alt="">
+        <h3>Hibjul Ahmed</h3>
+        <h4>Backend Developer</h4>
+        <div class="share">
+            <a href="https://www.facebook.com/hibjul.ahmed.14" target="_blank" class="fab fa-facebook-f"></a>
+            <a href="https://www.instagram.com/that_typical_geek/" target="_blank" class="fab fa-instagram"></a>
+            <a href="https://www.linkedin.com/in/hibjul-ahmed-257726189/" class="fab fa-linkedin" target="_blank"></a>
+        </div>
+    </div>
+
+    <div class="box">
+        <img src="../assets/img/subhash.jpeg" alt="">
+        <h3>Subhash Paul</h3>
+        <h4>Backend Developer</h4>
+        <div class="share">
+            <a href="https://github.com/subashpaul" target="_blank" class="fab fa-github-f"></a>
+            <a href="https://instagram.com/subashpaul559?igshid=ZDdkNTZiNTM=" target="_blank" class="fab fa-instagram"></a>
+            <a href="https://www.linkedin.com/in/subash-paul-39b0b9214" class="fab fa-linkedin" target="_blank"></a>
+        </div>
+    </div>
+
+    <div class="box">
+        <img src="../assets/img/arun.jpeg" alt="">
+        <h3>Arun Kumar Chunakar</h3>
+        <h4>UI/UX Designer</h4>
+        <div class="share">
+            <a href="https://www.linkedin.com/in/arun-kumar-chunarkar-686181228" target="_blank" class="fab fa-github-f"></a>
+            <a href="https://instagram.com/arun._.zzz?igshid=YmMyMTA2M2Y=" target="_blank" class="fab fa-instagram"></a>
+            <a href="https://instagram.com/arun._.zzz?igshid=YmMyMTA2M2Y=" class="fab fa-linkedin" target="_blank"></a>
+        </div>
+    </div>
+  
+  </div>
+  </section>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+</body>
+</html>

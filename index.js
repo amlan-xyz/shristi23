@@ -8,6 +8,8 @@ const Event = require("./routes/Event");
 const Register = require("./routes/Register");
 const Auth = require("./routes/auth");
 const Organisers = require("./routes/Organisers");
+const About = require("./routes/about");
+
 var path = require("path");
 // var public = path.join(__dirname, "");
 const session = require('express-session')
@@ -34,6 +36,7 @@ app.use(
 app.use(express.json());
 app.use(cors());
 app.use("/clubs", Club);
+app.use("/about", About);
 app.use("/events", Event);
 app.use("/registration", Register);
 app.use("/auth", Auth);
